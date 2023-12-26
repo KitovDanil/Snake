@@ -120,7 +120,6 @@ void refreshField(field &currentField, snakePart &snake) {
 
   while(isGameContinued) {
     Sleep(500);
-    system("cls");
 
     while(_kbhit()) {
       snakeDirection = _getch();
@@ -129,21 +128,23 @@ void refreshField(field &currentField, snakePart &snake) {
     int oldCoordX = snake.coordX, oldCoordY = snake.coordY;
     switch(snakeDirection) {
       case UP:
-        snake.coordY -= 1;
+        --snake.coordY;
         if(snake.coordY < 0) {
           snake.coordY = currentField.height - 1;
         }
         break;
       case DOWN:
-        snake.coordY += 1;
+        ++snake.coordY;
         snake.coordY %= currentField.height;
         break;
       case LEFT:
-        snake.coordX -= 1;
-        if(snake.coordX < 0) snake.coordX = currentField.width - 1;
+        --snake.coordX;
+        if(snake.coordX < 0) {
+          snake.coordX = currentField.width - 1;
+        }
         break;
       case RIGHT:
-        snake.coordX += 1;
+        ++snake.coordX;
         snake.coordX %= currentField.width;
         break;
       default:
@@ -164,6 +165,7 @@ void refreshField(field &currentField, snakePart &snake) {
 
     field fieldToPrint = drawSnakeOnField(currentField, snake);
 
+    system("cls");
     for(int fieldRowIndex = 0; fieldRowIndex < fieldToPrint.fieldForm.size(); ++fieldRowIndex) {
       cout << fieldToPrint.fieldForm[fieldRowIndex] << endl;
     }
